@@ -1,6 +1,10 @@
 #para ejecurtar el docker compose, asegurarse de tener docker instalado y ejecutar el siguiente comando
 #ejercurar el comando en la carpeta donde se encuentra el archivo docker-compose.yml con intellij para mas comididad
 #este docker conteirner despliega la app de cine y la base de datos postgres ingresando la informacion de la base de datos
+# Use Open Liberty with Java 21
+# Compile the application with Java 21 using Maven recuerda borrar primero target
+# mvn clean package
+#despues de ejecutar el docker compose se puede acceder a la aplicacion en el puerto 9080 con localhost:9080/cine-1.0-SNAPSHOT
 
 version: '3.9'
 

@@ -1,6 +1,7 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -13,7 +14,8 @@ public class Pelicula {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPelicula;
 
-    @Size(max = 255)
+    @NotBlank(message = "El nombre no es valido ")
+    @Size(max = 155, min = 3, message = "Debe agregar un nombre entre 3 y 155 caracteres")
     @Column(name = "nombre")
     private String nombre;
 

@@ -15,8 +15,8 @@ public class TipoReserva implements Serializable {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Integer idTipoReserva;
 
-@NotBlank
-@Size(max = 155, min = 3)
+    @NotBlank (message = "El nombre no es valido ")
+    @Size(max = 155, min = 3, message = "Debe agregar un nombre entre 3 y 155 caracteres")
 @Column(name = "nombre", length = 155)
 private String nombre;
 

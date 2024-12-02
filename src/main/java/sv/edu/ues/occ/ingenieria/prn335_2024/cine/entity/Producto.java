@@ -1,6 +1,7 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -15,7 +16,8 @@ public class Producto {
     @JoinColumn(name = "id_tipo_producto")
     private TipoProducto idTipoProducto;
 
-    @Size(max = 155)
+    @NotBlank(message = "El nombre no es valido ")
+    @Size(max = 155, min = 3, message = "Debe agregar un nombre entre 3 y 155 caracteres")
     @Column(name = "nombre", length = 155)
     private String nombre;
 
