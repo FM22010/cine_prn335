@@ -10,26 +10,44 @@
         <feature>jakartaee-10.0</feature> <!-- Jakarta EE 10 -->
     </featureManager>
 
-    <keyStore id="defaultKeyStore" password="hola12345" location="/config/keystore.p12" type="PKCS12"/>
+    <!--<keyStore id="defaultKeyStore" password="hola12345" location="/config/keystore.p12" type="PKCS12"/>-->
 
     <!-- Configuración de SSL en el servicio HTTP -->
     <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" />
 
-   <httpEndpoint host="*" httpPort="10000" httpsPort="10001" id="defaultHttpEndpoint" />
+<!--   <httpEndpoint host="*" httpPort="10000" httpsPort="10001" id="defaultHttpEndpoint" />-->
 
-   <!-- <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint" redirectHttpToHttps="true"/>-->
+    <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
 
 
     <!-- Configuración de conexión a base de datos -->
     <dataSource id="defaultDataSource" jndiName="jdbc/cine"
                 type="javax.sql.ConnectionPoolDataSource" transactional="true">
         <jdbcDriver libraryRef="postgresql-library" />
-        <properties.postgresql
+
+<!--    <properties.postgresql
                 user="postgres.cgcrwusuoqvpmhqhxcsn"
                 password="sYr7tUBOlvWwRu6H"
                 serverName="aws-0-us-east-1.pooler.supabase.com"
                 portNumber="6543"
-                databaseName="postgres" />
+                databaseName="postgres" />-->
+
+
+<!--        <properties.postgresql
+                user="cine"
+                password="cine"
+                databaseName="cine_prn335"
+                serverName="localhost"
+                portNumber="5432" />-->
+
+        <properties.postgresql
+                user="cine"
+                password="cine"
+                databaseName="cine_prn335"
+                serverName="db"
+                portNumber="5432" />
+
+
     </dataSource>
 
     <library id="postgresql-library">

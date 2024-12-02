@@ -1,0 +1,37 @@
+#para ejecurtar el docker compose, asegurarse de tener docker instalado y ejecutar el siguiente comando
+#ejercurar el comando en la carpeta donde se encuentra el archivo docker-compose.yml con intellij para mas comididad
+#este docker conteirner despliega la app de cine y la base de datos postgres ingresando la informacion de la base de datos
+
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile # Asegúrate de que esté correcto
+    ports:
+      - "9080:9080"
+      - "9443:9443"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: cine
+      DB_PASSWORD: cine
+      DB_NAME: cine_prn335
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: cine
+      POSTGRES_PASSWORD: cine
+      POSTGRES_DB: cine_prn335
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Volumen persistente para los datos
+      - ./init-db:/docker-entrypoint-initdb.d/  # Scripts de inicialización
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
