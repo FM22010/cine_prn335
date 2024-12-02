@@ -6,7 +6,6 @@
 #docker build -t cine .
 #correr la imagen con el siguiente comando se ocupa el puerto 9080 como puerto de entrada al contenedor y el puerto 10000 como puerto de salida del contenedor
 #docker run -p 9080:10000  cine
-
 #imagen base de open liberty con java 21
 FROM icr.io/appcafe/open-liberty:full-java21-openj9-ubi-minimal
 

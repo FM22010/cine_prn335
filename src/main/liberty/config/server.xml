@@ -20,41 +20,47 @@
     <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
 
 
-    <!-- Configuración de conexión a base de datos -->
+    <!-- Configuración de conexión a base de datos  -->
+    <!--actuaclmente esta configurado para base de datos local dentro del conteiner compose de docker-->
+    <!--si desea trabajar con otro tipo de configuracion que desmarque el que le interesa y marque el que no-->
+    <!--recuerdo que se pondra con docker asi que no subir cambios del servidor sin previo aviso-->
+
     <dataSource id="defaultDataSource" jndiName="jdbc/cine"
                 type="javax.sql.ConnectionPoolDataSource" transactional="true">
         <jdbcDriver libraryRef="postgresql-library" />
 
-<!--    <properties.postgresql
-                user="postgres.cgcrwusuoqvpmhqhxcsn"
-                password="sYr7tUBOlvWwRu6H"
-                serverName="aws-0-us-east-1.pooler.supabase.com"
-                portNumber="6543"
-                databaseName="postgres" />-->
+        <!-- Configuración de conexión a base de datos de supabase-->
+        <!--    <properties.postgresql
+                        user="postgres.cgcrwusuoqvpmhqhxcsn"
+                        password="sYr7tUBOlvWwRu6H"
+                        serverName="aws-0-us-east-1.pooler.supabase.com"
+                        portNumber="6543"
+                        databaseName="postgres" />-->
+
+        <!-- Configuración de conexión a base de datos de local-->
+        <!--        <properties.postgresql
+                        user="cine"
+                        password="cine"
+                        databaseName="cine_prn335"
+                        serverName="localhost"
+                        portNumber="5432" />-->
+
+    <!-- Configuración de conexión a base de datos de docker-->
+            <properties.postgresql
+                    user="cine"
+                    password="cine"
+                    databaseName="cine_prn335"
+                    serverName="db"
+                    portNumber="5432" />
 
 
-<!--        <properties.postgresql
-                user="cine"
-                password="cine"
-                databaseName="cine_prn335"
-                serverName="localhost"
-                portNumber="5432" />-->
+        </dataSource>
 
-        <properties.postgresql
-                user="cine"
-                password="cine"
-                databaseName="cine_prn335"
-                serverName="db"
-                portNumber="5432" />
+        <library id="postgresql-library">
+            <file name="${server.config.dir}/postgresql-42.7.4.jar" />
+        </library>
 
-
-    </dataSource>
-
-    <library id="postgresql-library">
-        <file name="${server.config.dir}/postgresql-42.7.4.jar" />
-    </library>
-
-    <!-- Configuración de seguridad -->
+        <!-- Configuración de seguridad -->
     <basicRegistry id="BasicUserRegistry">
         <user name="admin" password="adminPassword"/>
         <user name="cineUser" password="cinePassword"/>
