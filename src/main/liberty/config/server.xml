@@ -17,7 +17,7 @@
 
 <!--   <httpEndpoint host="*" httpPort="10000" httpsPort="10001" id="defaultHttpEndpoint" />-->
 
-    <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
+    <httpEndpoint httpPort="9080" httpsPort="9434" id="defaultHttpEndpoint"/>
 
 
     <!-- Configuración de conexión a base de datos  -->
@@ -30,12 +30,12 @@
         <jdbcDriver libraryRef="postgresql-library" />
 
         <!-- Configuración de conexión a base de datos de supabase-->
-        <!--    <properties.postgresql
+         <properties.postgresql
                         user="postgres.cgcrwusuoqvpmhqhxcsn"
                         password="sYr7tUBOlvWwRu6H"
                         serverName="aws-0-us-east-1.pooler.supabase.com"
                         portNumber="6543"
-                        databaseName="postgres" />-->
+                        databaseName="postgres" />
 
         <!-- Configuración de conexión a base de datos de local-->
         <!--        <properties.postgresql
@@ -46,12 +46,12 @@
                         portNumber="5432" />-->
 
     <!-- Configuración de conexión a base de datos de docker-->
-            <properties.postgresql
+            <!--properties.postgresql
                     user="cine"
                     password="cine"
                     databaseName="cine_prn335"
                     serverName="db"
-                    portNumber="5432" />
+                    portNumber="5432" /-->
 
 
         </dataSource>

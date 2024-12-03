@@ -5,7 +5,7 @@ import jakarta.ws.rs.core.Application;
 
 @ApplicationPath(value = "v1")
 public class CineApp extends Application {
-    //http://localhost:9080/cine-1.0-SNAPSHOT/v1/tiposala/
+    // http://172.18.0.1:9083/cine-1.0-SNAPSHOT/v1/tiposala/
     //http://localhost:9080/cine-1.0-SNAPSHOT/v1/tiporeserva/
     //http://localhost:9080/cine-1.0-SNAPSHOT/v1/tipoproducto/
     //http://localhost:9080/cine-1.0-SNAPSHOT/v1/tipopelicula/

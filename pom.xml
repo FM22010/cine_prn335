@@ -61,8 +61,24 @@
             <version>5.12.0</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
 
+        <!-- Dependencias para rest-->
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>3.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId> <!-- Sin espacio extra -->
+            <version>3.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>3.1.5</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <!-- Plugin para Liberty -->
@@ -71,7 +87,7 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>3.10</version>
                 <configuration>
-                    <installDirectory>/usr/local/openliberty/wlp10_24_0_0_8/</installDirectory>
+                    <installDirectory>/usr/local/openliberty/wlp10_24_00_8</installDirectory>
                     <serverName>prn335_2024</serverName>
                 </configuration>
             </plugin>
