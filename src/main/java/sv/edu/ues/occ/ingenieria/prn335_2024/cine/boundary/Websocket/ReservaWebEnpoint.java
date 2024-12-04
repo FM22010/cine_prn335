@@ -1,6 +1,8 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.boundary.Websocket;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.websocket.OnClose;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.RemoteEndpoint;
 import jakarta.websocket.Session;
@@ -12,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ServerEndpoint("/socketreserva")
+@ApplicationScoped
 public class ReservaWebEnpoint implements Serializable {
 
     @Inject
@@ -53,7 +56,7 @@ public class ReservaWebEnpoint implements Serializable {
         }
     }
 
-    @OnOpen
+    @OnClose
     public void close(Session sesions){
         if(sesions !=null){
             sesionWeb.deleteSesion(sesions);
@@ -79,4 +82,6 @@ public class ReservaWebEnpoint implements Serializable {
             }
         }
     }
+
+
 }
