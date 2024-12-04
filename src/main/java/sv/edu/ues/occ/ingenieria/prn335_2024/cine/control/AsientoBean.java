@@ -2,11 +2,12 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.control;
 
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.boundary.Websocket.ReservaWebEnpoint;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Asiento;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.SalaCaracteristica;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,10 +25,13 @@ public class AsientoBean extends AbstractDataPersistence<Asiento> implements Ser
         super(Asiento.class);
     }
 
+    @Inject
+    private ReservaWebEnpoint reservaWebEnpoint;
     @Override
     public EntityManager getEntityManager() {
         return em;
     }
+
 
     public int countSala(final int idSala){
         try {
@@ -67,5 +71,31 @@ public class AsientoBean extends AbstractDataPersistence<Asiento> implements Ser
         return query.getResultList();
     }
 
+
+
+    private List<Asiento> asientos;
+    private Asiento asientoSeleccionado;
+
+
+    public void ocuparAsientos(){
+        if(asientoSeleccionado !=null){
+            try {
+                asientoSeleccionado.setActivo(true);
+                em.merge(asientoSeleccionado);
+
+                //Generar mensaje
+                String mensaje ="El asiento"+ asientoSeleccionado.getNombre()+" ha sido ocupado";
+
+                reservaWebEnpoint.enviarMensajeNotificacion(mensaje);
+
+                Logger.getLogger(getClass().getName()).log(Level.INFO, "Asiento ocupado: {0}",
+                        asientoSeleccionado.getNombre());
+            }catch (Exception e){
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE,"Error al ocupar el asiento",e);
+            }
+        }else {
+            Logger.getLogger(getClass().getName()).log(Level.WARNING, "No se ha selecionado un asiento para ocupar");
+        }
+    }
 
 }
