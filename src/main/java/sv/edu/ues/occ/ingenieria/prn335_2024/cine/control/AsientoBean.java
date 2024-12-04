@@ -98,4 +98,20 @@ public class AsientoBean extends AbstractDataPersistence<Asiento> implements Ser
         }
     }
 
+    public Asiento createEntity(Asiento entity) {
+            if (entity != null) {
+                try {
+                    em.persist(entity);
+                    return entity;
+                } catch (Exception e) {
+                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+                }
+            }
+            return null;
+
+    }
+
+    public List<Asiento> findByIdPelicula(Long id) {
+            return null;
+    }
 }

@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -30,12 +31,15 @@ public class Sala {
     @JoinColumn(name = "id_sucursal")
     private Sucursal idSucursal;
 
+    @JsonIgnore //Para evitar que se genere un ciclo infinito
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "idSala")
     private List<SalaCaracteristica> salaCaracteristicaList;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "idSala")
+    @JsonIgnore //Para evitar que se genere un ciclo infinito
     private List<Programacion> programacionList;
 
+    @JsonIgnore //Para evitar que se genere un ciclo infinito
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "idSala")
     private List<Asiento> asientoList;
 

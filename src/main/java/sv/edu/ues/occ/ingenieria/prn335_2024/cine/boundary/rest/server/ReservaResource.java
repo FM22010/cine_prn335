@@ -65,24 +65,27 @@ public class ReservaResource implements Serializable {
     }
 
     @POST
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response create(Reserva reserva, @Context UriInfo uriInfo){
-        if(reserva != null && reserva.getIdReserva()==null){
-            try {
-                rBean.create(reserva);
-                if(reserva.getIdReserva()!=null){
-                    UriBuilder uriBuilder=uriInfo.getAbsolutePathBuilder();
-                    uriBuilder.path(String.valueOf(reserva.getIdReserva()));
-                    return Response.created(uriBuilder.build()).build();
-                }
-                return  Response.status(500).header("Process-Error","Record couldt be created").build();
-            }catch (Exception e){
-                Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(),e);
-                return  Response.status(500).entity(e.getMessage()).build();
-            }
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response create(Reserva reserva) {
+        if (reserva == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("El recurso no puede ser nulo.")
+                    .build();  // Código 400
         }
-        return Response.status(422).header("Wrong-Parameter","tiposala:"+reserva).build();
+
+        try {
+            reserva.setFechaReserva(java.time.OffsetDateTime.now());
+            rBean.create(reserva);
+            return Response.status(Response.Status.CREATED)
+                    .entity(reserva)
+                    .build();  // Código 201
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error interno: " + e.getMessage())
+                    .build();  // Código 500
+        }
     }
 
     @DELETE

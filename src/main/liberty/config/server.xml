@@ -13,11 +13,14 @@
     <!--<keyStore id="defaultKeyStore" password="hola12345" location="/config/keystore.p12" type="PKCS12"/>-->
 
     <!-- Configuración de SSL en el servicio HTTP -->
-    <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" />
+    <!--<ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" />-->
 
 <!--   <httpEndpoint host="*" httpPort="10000" httpsPort="10001" id="defaultHttpEndpoint" />-->
 
-    <httpEndpoint httpPort="9080" httpsPort="9434" id="defaultHttpEndpoint"/>
+<!--    <httpEndpoint httpPort="9080"  httpsPort="9434" id="defaultHttpEndpoint"/>-->
+
+    <httpEndpoint httpPort="9083" httpsPort="9443" id="defaultHttpEndpoint"/>
+
 
 
     <!-- Configuración de conexión a base de datos  -->

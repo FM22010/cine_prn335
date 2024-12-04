@@ -47,7 +47,7 @@ public class PeliculaResource implements Serializable {
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response findById(@PathParam("id") Integer id){
+    public Response findById(@PathParam("id") Long id){
         if(id!=null){
             try {
                 Pelicula encontrado=peBean.findById(id);

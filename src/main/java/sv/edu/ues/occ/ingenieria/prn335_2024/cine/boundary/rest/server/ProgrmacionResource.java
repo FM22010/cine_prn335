@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.ProgramacionBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Pelicula;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Programacion;
 
 import java.io.Serializable;
@@ -47,10 +48,10 @@ public class ProgrmacionResource implements Serializable {
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response findById(@PathParam("id") Integer id){
+    public Response findById(@PathParam("id") Long id){
         if(id!=null){
             try {
-                Programacion encontrado=prBean.findById(id);
+                Programacion encontrado=prBean.findById( id);
                 if(encontrado!=null){
                     Response.ResponseBuilder builder=Response.ok(encontrado).type(MediaType.APPLICATION_JSON);
                     return builder.build();
@@ -112,4 +113,36 @@ public class ProgrmacionResource implements Serializable {
                     .build();  // Código 500
         }
     }
+
+
+    /**
+     * resive el desde y hasta y devuelve las programaciones que esten entre esas fechas
+     */
+    @GET
+    @Path("/date")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response findByDate(
+            @QueryParam("desde")
+            String desde,
+            @QueryParam("hasta")
+            String hasta){
+        if(desde!=null && hasta!=null){
+            try {
+                List<Programacion> encontrados=prBean.findByDate(desde,hasta);
+                if(encontrados!=null){
+                    Response.ResponseBuilder builder=Response.ok(encontrados).type(MediaType.APPLICATION_JSON);
+                    return builder.build();
+                }
+                return Response.status(404).header("Not-Found","desde:"+desde+",hasta:"+hasta).build();
+            }catch (Exception e){
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(),e);
+                return Response.status(500).entity(e.getMessage()).build();
+            }
+        }
+        return  Response.status(422).header("Wrong-Parameter","desde:"+desde+",hasta:"+hasta).build();
+    }
+
+
+
+
 }

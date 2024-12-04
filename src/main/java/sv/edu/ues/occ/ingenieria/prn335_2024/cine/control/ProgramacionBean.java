@@ -151,4 +151,16 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
 
         return programacionesMap;
     }
+
+    public List<Programacion> findByDate(String desde, String hasta) {
+            try {
+                TypedQuery<Programacion> q = em.createNamedQuery("Programacion.findByDate", Programacion.class);
+                q.setParameter("desde", OffsetDateTime.parse(desde));
+                q.setParameter("hasta", OffsetDateTime.parse(hasta));
+                return q.getResultList();
+            }catch (Exception e) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE,e.getMessage(),e);
+            }
+            return List.of();
+        }
 }

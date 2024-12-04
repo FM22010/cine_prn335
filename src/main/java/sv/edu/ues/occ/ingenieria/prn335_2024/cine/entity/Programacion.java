@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.Duration;
@@ -20,6 +21,7 @@ public class Programacion {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_sala")
+    @JsonIgnore
     private Sala idSala;
 
     @ManyToOne(fetch = FetchType.LAZY)
