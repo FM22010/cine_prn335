@@ -271,9 +271,16 @@ public class FrmReserva extends AbstractfrmImplementacion<Reserva> implements Se
      * @return
      */
     public List<Programacion> completeFunciones(String query) {
-        System.out.println("Buscando funciones para la película: " + query);
-        return programacionBean.buscarProgramaciones(query, fechaSeleccionada);
+        List<Programacion> result = new ArrayList<>();
+        try {
+            // Suponiendo que tienes una lista de todas las programaciones
+            result = programacionBean.buscarProgramaciones(query); // Ajusta este método
+        } catch (Exception e) {
+            // Manejo de excepciones
+        }
+        return result;
     }
+
 
 
     // Método que cargaría las funciones para el día seleccionado
@@ -394,6 +401,7 @@ public class FrmReserva extends AbstractfrmImplementacion<Reserva> implements Se
         programacionSelecionada = null;
         asientosReservado= null;
     }
+
 
 
 
@@ -553,6 +561,15 @@ public class FrmReserva extends AbstractfrmImplementacion<Reserva> implements Se
 
     public void setFechaSeleccionada(OffsetDateTime fechaSeleccionada) {
         this.fechaSeleccionada = fechaSeleccionada;
+    }
+    private Programacion diaSeleccionado;
+
+    public Programacion getDiaSeleccionado() {
+        return diaSeleccionado;
+    }
+
+    public void setDiaSeleccionado(Programacion diaSeleccionado) {
+        this.diaSeleccionado = diaSeleccionado;
     }
 
 }
