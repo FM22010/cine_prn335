@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f:composition
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.facelets"
+        xmlns:c="jakarta.faces.core"
+        xmlns:p="http://primefaces.org/ui"
+        template="WEB-INF/templates/principal.xhtml">
+
+    <f:define name="titulo">
+        Reserva de el Cliente
+    </f:define>
+
+    <f:define name="cuerpo">
+        <h:form id="frmReserva">
+            <!-- Panel de pestañas -->
+            <p:tabView id="tabs" activeIndex="#{frmReserva.paso}" dynamic="true">
+
+                <!-- Primera pestaña: Selección de fecha y tipo de reserva -->
+                <p:tab title="Fecha de Reserva" id="tab1">
+
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Seleccione Día" />
+                        <p:calendar id="fecha" value="#{frmReserva.fechaSeleccionada}" pattern="yyyy-MM-dd" >
+                            <p:ajax event="change" listener="#{frmReserva.avanzarPaso}" update="tabs"/>
+                        </p:calendar>
+                    </h:panelGrid>
+                </p:tab>
+
+                <!-- Segunda pestaña: Selección de película -->
+                <p:tab title="Función" id="tab2">
+                    <h:outputLabel value="Seleccione Película" />
+
+                    <p:autoComplete
+                            id="funciones"
+                            value="#{frmReserva.diaSleccionado}"
+                            completeMethod="#{frmReserva.completeFunciones}"
+                            var="programacion"
+                            itemLabel="#{programacion.idPelicula.nombre} - #{programacion.idSala.nombre} - #{programacion.idSala.idSucursal.nombre} - #{programacion.desde}"
+                            itemValue="#{programacion}"
+                            forceSelection="true"
+                            dropdown="true" />
+
+                    <!-- Mostrar los detalles de la película seleccionada -->
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="Sinopsis" />
+                        <h:outputText value="#{frmReserva.peliculaSeleccionada.sinopsis}" rendered="#{not empty frmReserva.peliculaSeleccionada}" />
+                    </h:panelGrid>
+
+                    <h4>Características</h4>
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="Duración:" />
+                        <h:outputText value="#{frmReserva.programacionSelecionada.duracionFormato}" rendered="#{not empty frmReserva.peliculaSeleccionada}" />
+
+                        <h:outputLabel value="Género:" />
+                        <h:outputText value="#{frmReserva.peliculaSeleccionada.peliculaCaracteristicaList}" rendered="#{not empty frmReserva.peliculaSeleccionada}" />
+                    </h:panelGrid>
+                </p:tab>
+
+                <!-- Tercera pestaña: Selección de asientos -->
+                <p:tab title="Asientos" id="tab3">
+                    <h:form id="formAsientos">
+                        <p:panelGrid columns="3" style="display: flex; width: 100%; align-items: stretch; gap: 10px;">
+
+                            <!-- Columna de Asientos Disponibles -->
+                            <p:panel header="Asientos Disponibles" style="flex: 1; display: flex; flex-direction: column;">
+                                <p:dataTable var="asiento" value="#{frmReserva.asientosDisponibles}"
+                                             selection="#{frmReserva.asientoSelecionado}"
+                                             selectionMode="single" id="tablaAsientosDisponibles"
+                                             style="flex: 1;">
+                                    <p:column headerText="Número de Asiento">
+                                        <h:outputText value="#{asiento.idAsiento}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+
+                            <!-- Columna de Botones -->
+                            <p:panel style="flex: 0.5; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                <p:commandButton value="Reservar" icon="pi pi-check"
+                                                 action="#{frmReserva.reservarAsiento}"
+                                                 process="@this tablaAsientosDisponibles"
+                                                 update="formAsientos"/>
+                                <p:spacer height="10px"/>
+                                <p:commandButton value="Eliminar" icon="pi pi-times"
+                                                 action="#{frmReserva.eliminarReserva}"
+                                                 process="@this tablaAsientosReservados"
+                                                 update="formAsientos"/>
+                                <p:spacer height="10px"/>
+                            </p:panel>
+
+                            <!-- Columna de Asientos Reservados -->
+                            <p:panel header="Asientos Reservados" style="flex: 1; display: flex; flex-direction: column;">
+                                <p:dataTable var="asiento" value="#{frmReserva.asientosReservado}"
+                                             selection="#{frmReserva.asientoSelecionado}"
+                                             selectionMode="single" id="tablaAsientosReservados"
+                                             style="flex: 1;">
+                                    <p:column headerText="Número de Asiento">
+                                        <h:outputText value="#{asiento.idAsiento}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+
+                        </p:panelGrid>
+                    </h:form>
+                </p:tab>
+
+                <!-- Cuarta pestaña: Confirmación de reserva -->
+                <p:tab title="Confirmación" id="tab4">
+                    <p:outputPanel id="resumenReserva">
+                        <h:outputText value="Tipo de reserva: #{frmReserva.tipoReservaSelecionado.nombre}" />
+                        <br/>
+                        <h:outputText value="Película: #{frmReserva.peliculaSeleccionada.nombre}" />
+                        <br/>
+                        <h:outputText value="Programación: #{frmReserva.programacionSelecionada.desde}" />
+                        <br/>
+                        <h:outputText value="Asientos: #{frmReserva.asientosReservado}" />
+                    </p:outputPanel>
+                    <p:commandButton value="Confirmar Reserva" actionListener="#{frmReserva.confirmarReserva}" update="resumenReserva" />
+                </p:tab>
+
+            </p:tabView>
+
+            <!-- Botón para retroceder a la pestaña anterior-->
+            <p:commandButton value="Regresar" action="#{frmReserva.irAPestanaAnterior}" update="tabs" process="@this"/>
+            <!-- Botón para avanzar a la siguiente pestaña -->
+            <p:commandButton value="Next ->" action="#{frmReserva.avanzarPaso}" update="tabs" process="@this"/>
+        </h:form>
+    </f:define>
+</f:composition>
