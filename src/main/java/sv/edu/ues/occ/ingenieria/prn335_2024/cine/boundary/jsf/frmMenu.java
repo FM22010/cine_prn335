@@ -89,7 +89,12 @@ public class frmMenu implements Serializable {
                 .ajax(true)
                 .command("#{frmMenu.navegar('Reserva.jsf')}")
                 .build();
-
+        DefaultMenuItem reservaCliente = DefaultMenuItem.builder()
+                .value("Reserva del Cliente")
+                .icon("pi pi-calendar-plus")
+                .ajax(true)
+                .command("#{frmMenu.navegar('ReservaCliente.jsf')}")
+                .build();
 
         tipos.getElements().add(itemSala);
         tipos.getElements().add(itemAsiento);
@@ -101,6 +106,7 @@ public class frmMenu implements Serializable {
         Cine.getElements().add(sucursal);
         Cine.getElements().add(sala);
         Cine.getElements().add(reserva);
+        Cine.getElements().add(reservaCliente);
         model.getElements().add(tipos);
         model.getElements().add(Cine);
 
